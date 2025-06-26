@@ -1,6 +1,3 @@
-// FormBuilder.jsx
-// Improved: Refactored for clarity, maintainability, and conciseness. All logic remains in a single file.
-
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as FiIcons from "react-icons/fi";
 import {
@@ -938,6 +935,20 @@ const FormCanvas = ({
          e.dataTransfer.dropEffect = "move";
          if (!showGrid && draggingRowIndex === null) {
             setShowGrid(true);
+         }
+
+         // Auto-scroll logic
+         const SCROLL_MARGIN = 60; // px from bottom to trigger scroll
+         const SCROLL_SPEED = 24; // px per event
+         const canvas = canvasRef.current;
+         if (canvas) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseY = e.clientY;
+            if (mouseY > rect.bottom - SCROLL_MARGIN) {
+               canvas.scrollTop += SCROLL_SPEED;
+            } else if (mouseY < rect.top + SCROLL_MARGIN) {
+               canvas.scrollTop -= SCROLL_SPEED;
+            }
          }
       },
       [showGrid, draggingRowIndex]
