@@ -1,34 +1,33 @@
 # Form Maker – Modern React Form Builder
 
-A drag-and-drop form builder for React, with a beautiful UI and flexible schema export.
-
----
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
-
-Copyright (c) 2025 elsesourav
+A beautiful, drag-and-drop form builder for React. Build forms visually, arrange fields in a responsive grid, preview instantly, and export your schema as JSON.
 
 ---
 
 ## Features
 
--  **Drag & Drop**: Add, arrange, and resize fields visually.
+-  **Drag & Drop**: Add, arrange, and resize fields visually on a grid.
 -  **Field Types**: Text, Number, Date, Select, Multiple Choice, Title, Spacer, Textarea.
 -  **Grid Layout**: Place up to 4 fields per row (25%, 50%, 75%, 100% widths).
--  **Live Preview**: Instantly preview your form.
--  **Schema Export**: Download your form schema as JSON.
+-  **Live Preview**: Instantly preview your form as you build.
+-  **Schema Export**: Download your form schema as JSON or view it in-app.
 -  **CustomForm Renderer**: Render any saved schema as a working form.
+-  **Row & Field Reordering**: Drag to reorder fields within a row or move entire rows.
+-  **Field Editor**: Edit all field properties in a modal, including options for select/multiple fields.
+-  **Auto-scroll**: Canvas auto-scrolls when dragging near the top or bottom.
+-  **No External DnD Library**: All drag-and-drop logic is custom and lightweight.
+-  **Tailwind CSS**: Clean, modern UI with easy theming.
 
 ---
 
-## How to Use
+## Getting Started
 
-### 1. Add the Form Maker to Your App
+### 1. Add Form Maker to Your App
 
 ```jsx
-import { FormMaker, CustomForm } from "./components/formMaker";
+import { useState } from "react";
+import FormBuilder from "./components/formMaker/FormBuilder";
+import CustomForm from "./components/formMaker/CustomForm";
 
 function App() {
    const [showBuilder, setShowBuilder] = useState(false);
@@ -37,21 +36,26 @@ function App() {
    return (
       <div>
          <button onClick={() => setShowBuilder(true)}>Open Form Builder</button>
-         <FormMaker
+         <FormBuilder
             isOpen={showBuilder}
             onClose={() => setShowBuilder(false)}
             onSaveSchema={setFormSchema}
          />
          {formSchema && (
-            <CustomForm
-               schema={formSchema}
-               onSubmit={(data) => console.log(data)}
-            />
+            <div className="my-8">
+               <h2>Rendered Form:</h2>
+               <CustomForm
+                  schema={formSchema.schema}
+                  onSubmit={(data) => alert(JSON.stringify(data, null, 2))}
+               />
+            </div>
          )}
       </div>
    );
 }
 ```
+
+---
 
 ### 2. Building a Form
 
@@ -59,9 +63,11 @@ function App() {
 -  **Resize** by dropping into different grid sections (25%, 50%, etc).
 -  **Edit** a field by clicking the pencil icon.
 -  **Delete** a field with the trash icon.
--  **Reorder** fields or rows by dragging.
+-  **Reorder** fields within a row, or drag the row handle to reorder rows.
 -  **Preview** your form with the "Preview" button.
 -  **Export** the schema as JSON or view the schema in the "Schema" tab.
+
+---
 
 ### 3. Field Types
 
@@ -76,7 +82,9 @@ function App() {
 | Spacer   | Empty space               | Width only                   |
 | Textarea | Multi-line input          | Rows, Required               |
 
-### 4. Schema Example
+---
+
+### 4. Example Schema
 
 A saved schema looks like:
 
@@ -112,62 +120,56 @@ A saved schema looks like:
 
 ---
 
-## Rendering a Saved Form
+### 5. Rendering a Saved Form
 
 Use the `CustomForm` component:
 
 ```jsx
-import { CustomForm } from "./components/formMaker";
+import CustomForm from "./components/formMaker/CustomForm";
 
 <CustomForm
-   schema={savedSchema}
+   schema={savedSchema.schema}
    onSubmit={(formData) => {
       // handle form submission
+      console.log(formData);
    }}
 />;
 ```
 
 ---
 
-## Advanced
+## Advanced Usage
 
--  **Edit field options** (for select/multiple) in the field editor.
--  **Drag to reorder** fields within a row or move entire rows.
+-  **Edit field options** (for select/multiple) in the field editor modal.
+-  **Drag to reorder** fields within a row, or move entire rows.
 -  **Grid overlay** shows possible drop zones and widths.
 -  **SchemaPreview** and **FormPreview** for instant feedback.
+-  **Auto-scroll**: When dragging a field near the top or bottom of the canvas, the canvas will scroll automatically.
 
 ---
 
-## Example Workflow
+## File Structure
 
-1. Click "Open Form Builder".
-2. Drag a "Text" field, set label to "Name".
-3. Drag a "Number" field, set label to "Age", min/max as needed.
-4. Add a "Select" field, add options like "Male", "Female", "Other".
-5. Click "Preview" to see the form.
-6. Click "Schema" to view/export the JSON.
-7. Click "Save" to use the schema in your app.
+All logic is in a single file for easy integration:
+
+-  `FormBuilder.jsx` – Main builder modal, field palette, canvas, field editor, preview, and schema export.
+-  `CustomForm.jsx` – Render a form from a saved schema.
 
 ---
 
 ## Customization
 
 -  **Styling**: Uses Tailwind CSS for easy theming.
--  **Extend Field Types**: Add new field types in `utils/formMaker.js` and update the palette.
+-  **Extend Field Types**: Add new field types in `formUtils.js` and update the palette.
 -  **Validation**: Add more validation logic in the input components.
 
 ---
 
-## File Structure
+## License
 
--  `FormMaker.jsx` – Main builder modal
--  `FieldPalette.jsx` – Draggable field types
--  `FormCanvas.jsx` – Drag-and-drop grid canvas
--  `FieldEditor.jsx` – Field property editor modal
--  `CanvasField.jsx` – Individual field in canvas
--  `FormPreview.jsx` – Live form preview
--  `SchemaPreview.jsx` – JSON schema viewer
--  `CustomForm.jsx` – Render a form from schema
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+
+Copyright (c) 2025 elsesourav
 
 ---
 
@@ -178,4 +180,4 @@ import { CustomForm } from "./components/formMaker";
 
 ---
 
-Let us know if you want a quickstart, troubleshooting, or more advanced customization tips!
+Let us know if you want a quickstart, troubleshooting, or more
