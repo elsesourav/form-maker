@@ -1,4 +1,4 @@
-// utils/schemaLayout.js
+
 // Utility to generate { schema, widths } layout for FormMaker and SchemaPreview
 
 /**

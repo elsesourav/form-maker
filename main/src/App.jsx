@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CustomForm from "./components/formMaker/CustomForm";
-import FormMaker from "./components/formMaker/FormMaker";
+import FormBuilder from "./components/formMaker/FormBuilder";
 
 function App() {
    const [showBuilder, setShowBuilder] = useState(false);
@@ -12,7 +12,7 @@ function App() {
             Open Form Builder
          </button>
 
-         <FormMaker
+         <FormBuilder
             isOpen={showBuilder}
             onClose={() => setShowBuilder(false)}
             onSaveSchema={setFormSchema}
